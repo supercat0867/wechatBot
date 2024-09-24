@@ -16,7 +16,11 @@ type MessageList struct {
 	FromID    string `json:"fromid"`    // 发送方微信ID
 	FromName  string `json:"fromname"`  // 发送方微信名
 	FromGID   string `json:"fromgid"`   // 发送方群聊ID
-	FormGName string `json:"fromgname"` // 发送方群聊名称
+	FromGName string `json:"fromgname"` // 发送方群聊名称
 	ToID      string `json:"toid"`      // 接收方微信ID
 	ToName    string `json:"toname"`    // 接收方微信名
+}
+
+type ActionInput struct {
+	Prompt string `json:"prompt"`
 }

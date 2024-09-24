@@ -24,3 +24,10 @@ type CallGLMResponse struct {
 		TotalTokens      int `json:"total_tokens"`
 	} `json:"usage"`
 }
+
+type CallCogViewResponse struct {
+	Created int `json:"created"`
+	Data    []struct {
+		Url string `json:"url"`
+	} `json:"data"`
+}

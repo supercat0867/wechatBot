@@ -4,3 +4,8 @@ package wxhook
 type SendTextMsgResponse struct {
 	SendTextMsg string `json:"SendTextMsg"`
 }
+
+// SendPicMsgResponse 发送图片消息响应
+type SendPicMsgResponse struct {
+	SendPicMsg string `json:"SendPicMsg"`
+}

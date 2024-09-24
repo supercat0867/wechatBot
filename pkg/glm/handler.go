@@ -71,6 +71,8 @@ func GetAccessToken() string {
 // model: 模型名称，例如：glm-4-plus、glm-4-0520、glm-4、glm-4-air
 // messages: 对话消息列表
 func CallGLM(model string, messages []Message) (string, error) {
+	messages = append([]Message{{Content: SystemPrompt, Role: "system"}}, messages...)
+
 	// 将数据转换为JSON格式
 	jsonData, _ := json.Marshal(map[string]interface{}{
 		"model":    model,
@@ -108,4 +110,46 @@ func CallGLM(model string, messages []Message) (string, error) {
 	}
 
 	return responseJSON.Choices[0].Message.Content, nil
+}
+
+// CallCogView 调用CogView模型
+// prompt: 提示词
+func CallCogView(prompt string) (string, error) {
+	// 将数据转换为JSON格式
+	jsonData, _ := json.Marshal(map[string]interface{}{
+		"model":  "cogview-3-plus",
+		"prompt": prompt,
+	})
+
+	// 创建POST请求
+	url := "https://open.bigmodel.cn/api/paas/v4/images/generations"
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+	if err != nil {
+		return "", err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+GetAccessToken())
+
+	// 发送请求
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	// 读取响应
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	// 解析响应
+	var responseJSON CallCogViewResponse
+	err = json.Unmarshal(body, &responseJSON)
+	if err != nil {
+		return "", fmt.Errorf("响应解析失败：%v\n", err)
+	}
+
+	return responseJSON.Data[0].Url, nil
 }
