@@ -54,12 +54,12 @@ func SendTextMsg(wxid, msg string) error {
 }
 
 // SendImgMsg 发送图片消息
-func SendImgMsg(wxid, picPath, filename string) error {
+func SendImgMsg(wxid, picPath string) error {
 	// 将数据转换为JSON格式
 	jsonData, _ := json.Marshal(map[string]string{
 		"wxid":        wxid,
 		"picpath":     picPath,
-		"diyfilename": filename,
+		"diyfilename": "1.jpg",
 	})
 
 	// 创建POST请求

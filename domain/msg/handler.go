@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"log"
 	"regexp"
 	"strings"
@@ -102,7 +101,7 @@ func DealTextMsg(msg, fromId string) {
 					_ = wxhook.SendTextMsg(fromId, fmt.Sprintf("文生图调用失败：%v", err))
 				} else {
 					// 发送图片消息
-					_ = wxhook.SendImgMsg(fromId, src, fmt.Sprintf("%s.jpg", uuid.New().String()))
+					_ = wxhook.SendImgMsg(fromId, src)
 				}
 			} else {
 				_ = wxhook.SendTextMsg(fromId, fmt.Sprintf("暂不支持此工具【%s】", action))
