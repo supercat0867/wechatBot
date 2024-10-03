@@ -23,6 +23,14 @@ func MessageHandler(g *gin.Context) {
 	// 只处理收到的消息
 	if req.SendOrrecv == "2" {
 		for _, msg := range req.MsgList {
+			// 过滤掉文件助手、微信团队的消息
+			if msg.FromID == "filehelper" || msg.FromID == "weixin" {
+				continue
+			}
+			// 过滤掉微信公众号消息
+			if strings.HasPrefix(msg.Msg, "gh_") {
+				continue
+			}
 			fmt.Println("===========================================================================================")
 			fmt.Printf("消息类型：%s\n", msg.MsgType)
 			fmt.Printf("消息内容：%s\n", msg.Msg)
